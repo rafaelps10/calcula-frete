@@ -26,6 +26,7 @@ const calcularFrete = async (req, res) => {
         return res.status(404).json({ mensagem: 'Produto não encontrado' });
     }
 
+    try {
     const estado = await getStateFromZipcode(cep);
 
     let valorFrete = 0;
@@ -54,6 +55,12 @@ const calcularFrete = async (req, res) => {
         frete: valorFrete,
         total: valorTotal
     });
+
+    } catch (error) {
+        return res.status(400).json({ mensagem: error.message});
+    }
+
+    
 }
 
 module.exports = {
